@@ -12,6 +12,25 @@
 from os import system
 from time import sleep
 
+def mapPrint (map,x,y,z):
+    for ri in range(10):
+        for ci in range(10):
+            if robo_r == ri and robo_c == ci:            
+                print("R",end=" ")
+            elif map[ri][ci] == 0:                   
+                print(x,end=" ")
+            elif map[ri][ci] == 1:                   
+                print(y,end=" ")                 
+            elif map[ri][ci] == 3:                  
+                print(z,end=" ")
+        print("|", ri, end="")                            
+
+        print() 
+    
+    print("-"*21)
+    for ci in range(10):
+        print(ci, end=" ")                                ### Coordinates of the map's columns are printed
+    print()
 room_map = [
     [1,1,1,1,1,1,1,1,1,1],
     [1,0,0,0,0,0,0,0,0,1],
@@ -42,15 +61,15 @@ robo_steps = [
 # LEGEND
 # 0 - clean area
 # 1 - cleaned area
-# 2 - dirty are
+# 3 - dirty are
 dust_map = [
     [0,0,0,0,0,0,0,0,0,0],
     [0,0,0,0,0,0,0,0,0,0],
     [0,0,0,0,0,0,0,0,0,0],
     [0,0,0,0,0,0,0,0,0,0],
     [0,0,0,0,0,0,0,0,0,0],
-    [0,0,0,0,0,0,0,2,0,0],
-    [0,0,0,0,0,0,0,0,2,0],
+    [0,0,0,0,0,0,0,3,0,0],
+    [0,0,0,0,0,0,0,0,3,0],
     [0,0,0,0,0,0,0,0,0,0],
     [0,0,0,0,0,0,0,0,0,0],
     [0,0,0,0,0,0,0,0,0,0]
@@ -66,25 +85,7 @@ charge = 3                                                ### %
 while True:
     ###### PRINT THE MAP: nested loop ######
     system("cls")                                         ### Clear the screen
-    for ri in range(10):
-        for ci in range(10):
-            if robo_r == ri and robo_c == ci:             ### "R" is printed if robot on the map is identified
-                print("R",end=" ")
-            elif room_map[ri][ci] == 0:                   ### "." is printed if empty space on the map is identified
-                print(".",end=" ")
-            elif room_map[ri][ci] == 1:                   ### "#" is printed if an obstacle on the map is identified
-                print("#",end=" ")                 
-            elif room_map[ri][ci] == 3:                   ### "B" is printed if base on the map is identified
-                print("B",end=" ")
-        print("|", ri, end="")                            ### Coordinates of the map's rows are printed
-
-        print() 
-    
-    print("-"*21)
-    for ci in range(10):
-        print(ci, end=" ")                                ### Coordinates of the map's columns are printed
-    print()
-
+    mapPrint(room_map,".","#","B")
     for ri in range(10):
         for ci in range(10):
             if robo_steps[ri][ci] == 0:                   ### "." is printed if robot has not yet visited this place
@@ -100,25 +101,7 @@ while True:
         print(ci, end=" ")                                ### Coordinates of the map's columns are printed
     print()
 
-    for ri in range(10):
-        for ci in range(10):
-            if robo_r == ri and robo_c == ci:             ### "R" is printed if robot on the map is identified
-                print("R",end=" ")
-            elif dust_map[ri][ci] == 0:                   ### "-" is printed if clean area on the map is identified
-                print("-",end=" ")
-            elif dust_map[ri][ci] == 1:                   ### "*" is printed if cleaned area on the map is identified
-                print("*",end=" ")
-            elif dust_map[ri][ci] == 2:                   ### "~" is printed if dirty area on the map is identified
-                print("~",end=" ")              
-        print("|", ri, end="")                            ### Coordinates of the map's rows are printed
-
-        print() 
-
-    print("-"*21)
-    for ci in range(10):
-        print(ci, end=" ")                                ### Coordinates of the map's columns are printed
-    print()
-
+    mapPrint(dust_map,"-","*","~")
     print("Current battery level is", charge, " %")
     print("Current score is", score, " points")
     ###### PRINT THE MAP: nested loop ######
@@ -198,7 +181,7 @@ while True:
 
     ###### SCORE COUNTING         ######
     for p in dust_map:
-        if dust_map[robo_r][robo_c] == 2:
+        if dust_map[robo_r][robo_c] == 3:
             dust_map[robo_r][robo_c] = 1
             score += 1
     ###### SCORE COUNTING         ######
